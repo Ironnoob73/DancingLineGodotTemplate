@@ -1,7 +1,10 @@
 extends CharacterBody3D
 
+@export var material: Material
+
 const SPEED = 5.0
 var move_direction: Vector2 = Vector2(0,0)
+@onready var mesh: MeshInstance3D = $Mesh
 @onready var music: AudioStreamPlayer = $Music
 
 @onready var camera: Camera3D = $CameraOrigin/Camera
@@ -9,12 +12,23 @@ var move_direction: Vector2 = Vector2(0,0)
 
 var current_track: MeshInstance3D = null
 var track_from_pos: Vector2 = Vector2(0,0)
+var trail_group: Node3D = null
 
 var last_frame_on_floor: bool = false
 @onready var land_particle: GPUParticles3D = $LandParticle
 
 var dead: bool = false
 const DEATH_PARTICLE = preload("res://DeathParticle.tscn")
+@onready var death_sound: AudioStreamPlayer = $Death
+# Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
+
+func _ready() -> void:
+	if material != null:
+		mesh.material_override = material
+	trail_group = Node3D.new()
+	trail_group.name = "TrailGroup"
+	get_parent().add_child.call_deferred(trail_group)
+	print(trail_group)
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("replay"):
@@ -75,18 +89,21 @@ func new_track() -> void:
 	var track: MeshInstance3D = MeshInstance3D.new()
 	var track_mesh: BoxMesh = BoxMesh.new()
 	track_mesh.size.y = 1
+	track_mesh.material = mesh.material_override
 	track.mesh = track_mesh
-	get_parent().add_child(track)
+	trail_group.add_child(track)
 	current_track = track
 	track.global_position = global_position
 
 func death() -> void:
 	dead = true
 	music.stop()
+	death_sound.play(0.1)
 	move_direction = Vector2(0,0)
 	for i in 20:
 		var death_particle_instance: RigidBody3D = DEATH_PARTICLE.instantiate()
 		get_parent().add_child(death_particle_instance)
+		death_particle_instance.mesh.material_override = mesh.material_override
 		death_particle_instance.global_position = global_position
 		death_particle_instance.apply_impulse(Vector3(rand_dir(),rand_dir(),rand_dir()))
 		death_particle_instance.apply_torque(Vector3(rand_dir(),rand_dir(),rand_dir()))

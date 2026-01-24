@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://Line.tscn" id="1_glv2v"]
 
 [sub_resource type="Environment" id="Environment_glv2v"]
+ssao_enabled = true
+glow_enabled = true
 
 [sub_resource type="Gradient" id="Gradient_glv2v"]
 interpolation_mode = 1
@@ -36,18 +38,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 use_collision = true
 size = Vector3(50, 1, 50)
-material = SubResource("StandardMaterial3D_r0du0")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
-use_collision = true
-size = Vector3(10, 1, 1)
-material = SubResource("StandardMaterial3D_r0du0")
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5)
-use_collision = true
-size = Vector3(1, 1, 10)
 material = SubResource("StandardMaterial3D_r0du0")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
