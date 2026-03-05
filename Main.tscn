@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c2sv68t5t61jq"]
 
-[ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://Line.tscn" id="1_glv2v"]
+[ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://gameObjects/Line.tscn" id="1_glv2v"]
 
 [sub_resource type="Environment" id="Environment_glv2v"]
 ssao_enabled = true

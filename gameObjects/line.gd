@@ -2,10 +2,10 @@ extends CharacterBody3D
 
 @export var material: Material
 
-const SPEED = 5.0
+@export var SPEED: float = 5.0
 var move_direction: Vector2 = Vector2(0,0)
 @onready var mesh: MeshInstance3D = $Mesh
-@onready var music: AudioStreamPlayer = $Music
+@onready var music: AudioStreamPlayer = $Music 
 
 @onready var camera: Camera3D = $CameraOrigin/Camera
 @onready var camera_pos: Marker3D = $CameraOrigin/CameraPos
@@ -18,11 +18,12 @@ var last_frame_on_floor: bool = false
 @onready var land_particle: GPUParticles3D = $LandParticle
 
 var dead: bool = false
-const DEATH_PARTICLE = preload("res://DeathParticle.tscn")
+const DEATH_PARTICLE = preload("res://gameObjects/DeathParticle.tscn")
 @onready var death_sound: AudioStreamPlayer = $Death
 # Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
 
 func _ready() -> void:
+	#TODO: Set music clip on start
 	if material != null:
 		mesh.material_override = material
 	trail_group = Node3D.new()
@@ -31,20 +32,25 @@ func _ready() -> void:
 	print(trail_group)
 
 func _physics_process(delta: float) -> void:
+
+	# Restart hotkey
 	if Input.is_action_just_pressed("replay"):
 		get_tree().reload_current_scene()
 		
+	# Alive process
 	if !dead:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
+		# Landing particle
 		if !last_frame_on_floor and is_on_floor():
 			new_track()
 			land_particle.emitting = true
 		last_frame_on_floor = is_on_floor()
 		
+		# Turn
 		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-			if move_direction.length() == 0:
+			if move_direction.length() == 0: # Start game
 				move_direction.x = 1
 				music.play()
 			elif move_direction.x != 0:
@@ -65,6 +71,7 @@ func _physics_process(delta: float) -> void:
 
 		move_and_slide()
 	
+		# Extend current track
 		if current_track != null:
 			if is_on_floor():
 				if move_direction.x != 0:
@@ -78,9 +85,16 @@ func _physics_process(delta: float) -> void:
 			else:
 				current_track = null
 	
+		# Death trigger
+		# TODO: Only trigger death when hitting tagged objects
 		if is_on_wall():
 			death()
-			
+
+		# TODO: Void death trigger
+
+		# TODO: Success trigger
+
+	# TODO: Switch to Phantom Camera addon	
 	camera.global_position = lerp(camera.global_position, camera_pos.global_position, 0.05)
 	
 func new_track() -> void:
@@ -95,17 +109,21 @@ func new_track() -> void:
 	current_track = track
 	track.global_position = global_position
 
-func death() -> void:
+func death(void_death: bool = false) -> void:
 	dead = true
 	music.stop()
-	death_sound.play(0.1)
-	move_direction = Vector2(0,0)
-	for i in 20:
-		var death_particle_instance: RigidBody3D = DEATH_PARTICLE.instantiate()
-		get_parent().add_child(death_particle_instance)
-		death_particle_instance.mesh.material_override = mesh.material_override
-		death_particle_instance.global_position = global_position
-		death_particle_instance.apply_impulse(Vector3(rand_dir(),rand_dir(),rand_dir()))
-		death_particle_instance.apply_torque(Vector3(rand_dir(),rand_dir(),rand_dir()))
+
+	# These are for collision death
+	if !void_death:
+		move_direction = Vector2(0,0)
+		death_sound.play(0.1)
+		for i in 20:
+			var death_particle_instance: RigidBody3D = DEATH_PARTICLE.instantiate()
+			get_parent().add_child(death_particle_instance)
+			death_particle_instance.mesh.material_override = mesh.material_override
+			death_particle_instance.global_position = global_position
+			death_particle_instance.apply_impulse(Vector3(rand_dir(),rand_dir(),rand_dir()))
+			death_particle_instance.apply_torque(Vector3(rand_dir(),rand_dir(),rand_dir()))
+
 func rand_dir() -> float:
 	return randf_range(-SPEED,SPEED)
