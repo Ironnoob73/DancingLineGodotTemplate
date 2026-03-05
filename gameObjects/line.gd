@@ -11,14 +11,14 @@ var move_direction: Vector2 = Vector2(0,0)
 @onready var camera_pos: Marker3D = $CameraOrigin/CameraPos
 @onready var detector: Area3D = $Detector
 
-var current_track: MeshInstance3D = null
-var track_from_pos: Vector2 = Vector2(0,0)
-var trail_group: Node3D = null
+var _current_track: MeshInstance3D = null
+var _track_from_pos: Vector2 = Vector2(0,0)
+var _trail_group: Node3D = null
 
-var last_frame_on_floor: bool = false
+var _last_frame_on_floor: bool = false
 @onready var land_particle: GPUParticles3D = $LandParticle
 
-var dead: bool = false
+var _is_dead: bool = false
 const DEATH_PARTICLE = preload("res://gameObjects/DeathParticle.tscn")
 @onready var death_sound: AudioStreamPlayer = $Death
 # Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
@@ -27,10 +27,10 @@ func _ready() -> void:
 	#TODO: Set music clip on start
 	if material != null:
 		mesh.material_override = material
-	trail_group = Node3D.new()
-	trail_group.name = "TrailGroup"
-	get_parent().add_child.call_deferred(trail_group)
-	print(trail_group)
+	_trail_group = Node3D.new()
+	_trail_group.name = "TrailGroup"
+	get_parent().add_child.call_deferred(_trail_group)
+	print(_trail_group)
 
 	detector.area_entered.connect(_on_area_entered)
 
@@ -41,15 +41,15 @@ func _physics_process(delta: float) -> void:
 		get_tree().reload_current_scene()
 		
 	# Alive process
-	if !dead:
+	if !_is_dead:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
 		# Landing particle
-		if !last_frame_on_floor and is_on_floor():
+		if !_last_frame_on_floor and is_on_floor():
 			new_track()
 			land_particle.emitting = true
-		last_frame_on_floor = is_on_floor()
+		_last_frame_on_floor = is_on_floor()
 		
 		# Turn
 		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -75,18 +75,18 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 	
 		# Extend current track
-		if current_track != null:
+		if _current_track != null:
 			if is_on_floor():
 				if move_direction.x != 0:
-					current_track.mesh.size.x = global_position.x - track_from_pos.x
-					current_track.position.x = current_track.mesh.size.x / 2 + track_from_pos.x - 0.5
-					current_track.mesh.size.z = 1
+					_current_track.mesh.size.x = global_position.x - _track_from_pos.x
+					_current_track.position.x = _current_track.mesh.size.x / 2 + _track_from_pos.x - 0.5
+					_current_track.mesh.size.z = 1
 				else:
-					current_track.mesh.size.z = global_position.z - track_from_pos.y
-					current_track.position.z = current_track.mesh.size.z / 2 + track_from_pos.y - 0.5
-					current_track.mesh.size.x = 1
+					_current_track.mesh.size.z = global_position.z - _track_from_pos.y
+					_current_track.position.z = _current_track.mesh.size.z / 2 + _track_from_pos.y - 0.5
+					_current_track.mesh.size.x = 1
 			else:
-				current_track = null
+				_current_track = null
 	
 		# Death trigger for Collider3D
 		# DONE: Only trigger death when hitting tagged objects
@@ -103,15 +103,15 @@ func _physics_process(delta: float) -> void:
 	camera.global_position = lerp(camera.global_position, camera_pos.global_position, 0.05)
 	
 func new_track() -> void:
-	track_from_pos.x = global_position.x
-	track_from_pos.y = global_position.z
+	_track_from_pos.x = global_position.x
+	_track_from_pos.y = global_position.z
 	var track: MeshInstance3D = MeshInstance3D.new()
 	var track_mesh: BoxMesh = BoxMesh.new()
 	track_mesh.size.y = 1
 	track_mesh.material = mesh.material_override
 	track.mesh = track_mesh
-	trail_group.add_child(track)
-	current_track = track
+	_trail_group.add_child(track)
+	_current_track = track
 	track.global_position = global_position
 
 # Trigger handler
@@ -123,7 +123,7 @@ func _on_area_entered(area: Area3D) -> void:
 	# TODO: Success trigger
 
 func death(void_death: bool = false) -> void:
-	dead = true
+	_is_dead = true
 	music.stop()
 
 	# These are for collision death
