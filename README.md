@@ -1,4 +1,5 @@
 # Dancing Line Template for Godot
+[[阅读中文自述文件]](README.zh.md)
 ![Icon](/icon.svg "Dancing Line Godot")
 
 ## Default operation
