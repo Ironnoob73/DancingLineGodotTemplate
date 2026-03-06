@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c2sv68t5t61jq"]
+[gd_scene format=3 uid="uid://c2sv68t5t61jq"]
 
 [ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://gameObjects/Line.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="2_fos0i"]
@@ -48,75 +48,75 @@ size = Vector3(50, 1, 50)
 [sub_resource type="Resource" id="Resource_fos0i"]
 script = ExtResource("3_3dxm6")
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=757634661]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=749572956]
 environment = SubResource("Environment_glv2v")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1271795765]
 transform = Transform3D(0.70710677, 0.49999997, -0.49999997, 0, 0.70710677, 0.70710677, 0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Line" parent="." instance=ExtResource("1_glv2v")]
+[node name="Line" parent="." unique_id=195066946 instance=ExtResource("1_glv2v")]
 SPEED = 8.0
 
-[node name="ExampleWall" type="StaticBody3D" parent="." groups=["wall"]]
+[node name="ExampleWall" type="StaticBody3D" parent="." unique_id=605429250 groups=["wall"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.880592, -4.4867744, 29.856625)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ExampleWall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExampleWall" unique_id=816480880]
 shape = SubResource("BoxShape3D_glv2v")
 
-[node name="Mesh" type="MeshInstance3D" parent="ExampleWall"]
+[node name="Mesh" type="MeshInstance3D" parent="ExampleWall" unique_id=172394489]
 mesh = SubResource("BoxMesh_uu6xs")
 
-[node name="ExampleSafeWall" type="Area3D" parent="."]
+[node name="ExampleSafeWall" type="Area3D" parent="." unique_id=1892065132]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.098804, -6.1424704, 35.367493)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ExampleSafeWall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExampleSafeWall" unique_id=1810943149]
 shape = SubResource("BoxShape3D_uu6xs")
 
-[node name="Mesh" type="MeshInstance3D" parent="ExampleSafeWall"]
+[node name="Mesh" type="MeshInstance3D" parent="ExampleSafeWall" unique_id=2033675962]
 mesh = SubResource("BoxMesh_r0du0")
 
-[node name="Void" type="Area3D" parent="." groups=["void"]]
+[node name="Void" type="Area3D" parent="." unique_id=700663751 groups=["void"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Void"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Void" unique_id=1838439528]
 shape = SubResource("BoxShape3D_3dxm6")
 debug_color = Color(0.9370674, 1.2995302e-05, 0.6316623, 0.41960785)
 
-[node name="Ground" type="Node3D" parent="."]
+[node name="Ground" type="Node3D" parent="." unique_id=228889700]
 
-[node name="CSGBox3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="CSGBox3D" type="StaticBody3D" parent="Ground" unique_id=966169356 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D" unique_id=1838181474]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D" unique_id=980781997]
 mesh = SubResource("BoxMesh_fos0i")
 
-[node name="CSGBox3D4" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="CSGBox3D4" type="StaticBody3D" parent="Ground" unique_id=1597762049 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.964294, -6.3284216, 30.043158)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D4" unique_id=556931176]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D4" unique_id=181130628]
 mesh = SubResource("BoxMesh_fos0i")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1445494270]
 physics_interpolation_mode = 1
 transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
 top_level = true
 
-[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=1194030430]
 process_priority = 300
 process_physics_priority = 300
 script = ExtResource("5_lgr22")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="PhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "look_at_target")]
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=768218356 node_paths=PackedStringArray("follow_target", "look_at_target")]
 transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
 top_level = true
 script = ExtResource("2_fos0i")
