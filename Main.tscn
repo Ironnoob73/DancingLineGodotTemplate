@@ -1,8 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://c2sv68t5t61jq"]
+[gd_scene load_steps=17 format=3 uid="uid://c2sv68t5t61jq"]
 
 [ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://gameObjects/Line.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="2_fos0i"]
-[ext_resource type="Texture2D" uid="uid://cmc7lranbm1bp" path="res://assets/textures/chessboard.tres" id="2_uu6xs"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_3dxm6"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_lgr22"]
 
@@ -37,9 +36,7 @@ size = Vector3(500, 10, 500)
 size = Vector3(50, 1, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cm0pq"]
-albedo_texture = ExtResource("2_uu6xs")
-uv1_triplanar = true
-texture_filter = 0
+albedo_color = Color(0.44806695, 0.44806695, 0.44806695, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fos0i"]
 material = SubResource("StandardMaterial3D_cm0pq")
@@ -87,22 +84,22 @@ debug_color = Color(0.9370674, 1.2995302e-05, 0.6316623, 0.41960785)
 
 [node name="Ground" type="Node3D" parent="."]
 
-[node name="CSGBox3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="Ground1" type="StaticBody3D" parent="Ground" groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground1"]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground1"]
 mesh = SubResource("BoxMesh_fos0i")
 
-[node name="CSGBox3D4" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="Ground2" type="StaticBody3D" parent="Ground" groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.964294, -6.3284216, 30.043158)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/CSGBox3D4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground2"]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CSGBox3D4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground2"]
 mesh = SubResource("BoxMesh_fos0i")
 
 [node name="Camera3D" type="Camera3D" parent="."]

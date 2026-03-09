@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Addons beside PhantomCamera
+!/addons/phantom_camera/
+/addons/
