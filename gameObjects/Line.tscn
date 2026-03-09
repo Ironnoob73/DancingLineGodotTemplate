@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6uu6nk2msmlk"]
+[gd_scene format=3 uid="uid://c6uu6nk2msmlk"]
 
 [ext_resource type="Script" uid="uid://yt30ubf11joe" path="res://gameObjects/line.gd" id="1_0lsht"]
 [ext_resource type="AudioStream" uid="uid://c8i7qtxbm0t66" path="res://assets/music/StayInsideMe.mp3" id="2_7clfx"]
@@ -34,20 +34,20 @@ material = SubResource("StandardMaterial3D_dpsif")
 [sub_resource type="BoxShape3D" id="BoxShape3D_aqqr8"]
 size = Vector3(0.5, 1, 0.5)
 
-[node name="Line" type="CharacterBody3D"]
+[node name="Line" type="CharacterBody3D" unique_id=2028535802]
 collision_layer = 2
 script = ExtResource("1_0lsht")
 
-[node name="CollisionShape" type="CollisionShape3D" parent="."]
+[node name="CollisionShape" type="CollisionShape3D" parent="." unique_id=2134969473]
 shape = SubResource("BoxShape3D_rp6vb")
 
-[node name="Mesh" type="MeshInstance3D" parent="."]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1579106903]
 mesh = SubResource("BoxMesh_0lsht")
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=526060188]
 stream = ExtResource("2_7clfx")
 
-[node name="LandParticle" type="GPUParticles3D" parent="."]
+[node name="LandParticle" type="GPUParticles3D" parent="." unique_id=126331271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 emitting = false
 amount = 16
@@ -57,10 +57,10 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_7clfx")
 draw_pass_1 = SubResource("SphereMesh_d6126")
 
-[node name="Death" type="AudioStreamPlayer" parent="."]
+[node name="Death" type="AudioStreamPlayer" parent="." unique_id=341835516]
 stream = ExtResource("3_dpsif")
 
-[node name="Detector" type="Area3D" parent="."]
+[node name="Detector" type="Area3D" parent="." unique_id=2011419396]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Detector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detector" unique_id=1603352555]
 shape = SubResource("BoxShape3D_aqqr8")

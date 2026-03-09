@@ -24,7 +24,7 @@ const DEATH_PARTICLE = preload("res://gameObjects/DeathParticle.tscn")
 # Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
 
 func _ready() -> void:
-	#TODO: Set music clip on start
+	# TODO: Set music clip on start
 	if material != null:
 		mesh.material_override = material
 	_trail_group = Node3D.new()
