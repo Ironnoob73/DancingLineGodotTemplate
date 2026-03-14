@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var SPEED: float = 5.0
 @export var music_clip: AudioStream
 
+signal level_start
 signal level_complete
 signal level_failed
 signal open_pyramid
@@ -12,8 +13,6 @@ var move_direction: Vector2 = Vector2(0,0)
 @onready var mesh: MeshInstance3D = $Mesh
 @onready var music: AudioStreamPlayer = $Music 
 
-# @onready var camera: Camera3D = $CameraOrigin/Camera
-# @onready var camera_pos: Marker3D = $CameraOrigin/CameraPos
 @onready var detector: Area3D = $Detector
 
 var _current_track: MeshInstance3D = null
@@ -42,6 +41,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	# Restart hotkey
+	# [ ]: Disable this in production
 	if Input.is_action_just_pressed("replay"):
 		get_tree().reload_current_scene()
 		
@@ -61,6 +61,7 @@ func _physics_process(delta: float) -> void:
 			if move_direction.length() == 0: # Start game
 				move_direction.x = 1
 				music.play()
+				emit_signal("level_start")
 			elif move_direction.x != 0:
 				move_direction.x = 0
 				move_direction.y = 1

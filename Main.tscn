@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_3dxm6"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_lgr22"]
 [ext_resource type="PackedScene" uid="uid://bf11okdx6rh2s" path="res://gameObjects/Pyramid.tscn" id="6_3dxm6"]
+[ext_resource type="Script" uid="uid://cjgbeta2rrsuy" path="res://script/game_manager.gd" id="7_lgr22"]
 
 [sub_resource type="Environment" id="Environment_glv2v"]
 ssao_enabled = true
@@ -149,5 +150,9 @@ transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PyramidOpen" unique_id=904288546]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 shape = SubResource("BoxShape3D_lgr22")
+
+[node name="GameManager" type="Node" parent="." unique_id=1372682100 node_paths=PackedStringArray("line")]
+script = ExtResource("7_lgr22")
+line = NodePath("../Line")
 
 [connection signal="open_pyramid" from="Line" to="Pyramid" method="open"]
