@@ -17,6 +17,9 @@ fog_density = 1.0
 fog_depth_begin = 35.0
 fog_depth_end = 75.0
 
+[sub_resource type="Resource" id="Resource_fos0i"]
+script = ExtResource("3_3dxm6")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_glv2v"]
 size = Vector3(1, 3, 5)
 
@@ -50,13 +53,14 @@ albedo_color = Color(0.44806695, 0.44806695, 0.44806695, 1)
 material = SubResource("StandardMaterial3D_cm0pq")
 size = Vector3(50, 1, 50)
 
-[sub_resource type="Resource" id="Resource_fos0i"]
-script = ExtResource("3_3dxm6")
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_lgr22"]
 size = Vector3(7, 1, 3)
 
 [node name="Node3D" type="Node3D" unique_id=757634661]
+
+[node name="GameManager" type="Node" parent="." unique_id=1372682100 node_paths=PackedStringArray("line")]
+script = ExtResource("7_lgr22")
+line = NodePath("../Line")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=749572956]
 environment = SubResource("Environment_glv2v")
@@ -68,6 +72,33 @@ shadow_enabled = true
 [node name="Line" parent="." unique_id=195066946 groups=["Player"] instance=ExtResource("1_glv2v")]
 SPEED = 8.0
 music_clip = ExtResource("2_3dxm6")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1445494270]
+physics_interpolation_mode = 1
+transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
+top_level = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=1194030430]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("5_lgr22")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=768218356 node_paths=PackedStringArray("follow_target", "look_at_target")]
+transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
+top_level = true
+script = ExtResource("2_fos0i")
+follow_mode = 2
+follow_target = NodePath("../Line")
+look_at_mode = 2
+look_at_target = NodePath("../Line")
+tween_resource = SubResource("Resource_fos0i")
+follow_offset = Vector3(-5, 7, -5)
+follow_damping = true
+follow_damping_value = Vector3(0.25, 0.25, 0.25)
+align_transform_with_view = Callable()
+align_position_with_view = Callable()
+align_rotation_with_view = Callable()
 
 [node name="ExampleWall" type="StaticBody3D" parent="." unique_id=605429250 groups=["wall"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.880592, -4.4867744, 29.856625)
@@ -114,45 +145,16 @@ shape = SubResource("BoxShape3D_r0du0")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground2" unique_id=1660691300]
 mesh = SubResource("BoxMesh_fos0i")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1445494270]
-physics_interpolation_mode = 1
-transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
-top_level = true
+[node name="Triggers" type="Node3D" parent="." unique_id=70409081]
 
-[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=1194030430]
-process_priority = 300
-process_physics_priority = 300
-script = ExtResource("5_lgr22")
-metadata/_custom_type_script = "uid://bd046eokvcnu2"
-
-[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=768218356 node_paths=PackedStringArray("follow_target", "look_at_target")]
-transform = Transform3D(-0.7071068, 0.49746838, -0.5025189, -2.9802322e-08, 0.71066904, 0.70352656, 0.7071068, 0.4974684, -0.5025189, -5, 7, -5)
-top_level = true
-script = ExtResource("2_fos0i")
-follow_mode = 2
-follow_target = NodePath("../Line")
-look_at_mode = 2
-look_at_target = NodePath("../Line")
-tween_resource = SubResource("Resource_fos0i")
-follow_offset = Vector3(-5, 7, -5)
-follow_damping = true
-follow_damping_value = Vector3(0.25, 0.25, 0.25)
-align_transform_with_view = Callable()
-align_position_with_view = Callable()
-align_rotation_with_view = Callable()
-
-[node name="Pyramid" parent="." unique_id=1417515114 instance=ExtResource("6_3dxm6")]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 60.700237, -5.860615, 61.02251)
-
-[node name="PyramidOpen" type="Area3D" parent="." unique_id=2021506257 groups=["pyramid_open"]]
+[node name="PyramidOpen" type="Area3D" parent="Triggers" unique_id=2021506257 groups=["pyramid_open"]]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 48, -5, 48.271885)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PyramidOpen" unique_id=904288546]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/PyramidOpen" unique_id=904288546]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 shape = SubResource("BoxShape3D_lgr22")
 
-[node name="GameManager" type="Node" parent="." unique_id=1372682100 node_paths=PackedStringArray("line")]
-script = ExtResource("7_lgr22")
-line = NodePath("../Line")
+[node name="Pyramid" parent="." unique_id=1417515114 instance=ExtResource("6_3dxm6")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 60.700237, -5.860615, 61.02251)
 
 [connection signal="open_pyramid" from="Line" to="Pyramid" method="open"]

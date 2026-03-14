@@ -18,36 +18,39 @@ enum GameState {
 @export var line: CharacterBody3D
 # TODO: 各类UI
 
-## 关卡进度
+## Level percentage (0.0 - 1.0)
 var game_percentage: float = 0.0
-## 钻石数量
+## Diamond count
 var diamond_count: int = 0
-## 皇冠数量
+## Crown count
 var crown_count: int = 0
-## 当前游戏状态
+## Current game state
 var state: GameState = GameState.READY
-## 音频文件
+## Audio file
 var music_clip: AudioStream
-## 音频长度
+## Audio length
 var music_length: float
-## 已过时间
+## Time elapsed since level start
 var elapsed_time: float = 0.0
 
 func _ready() -> void:
     assert(line != null, "GameManager尚未设置Line对象！")
-    # 连接Line的信号
+    # Connect signals
     line.level_start.connect(_on_level_start)
     line.level_complete.connect(_on_level_complete)
     line.level_failed.connect(_on_level_failed)
+    # Get music length for progress calculation
     music_clip = line.get_node("Music").stream
     music_length = music_clip.get_length()
 
 func _process(delta: float) -> void:
+    # Update game percentage when playing
     if state == GameState.PLAYING:
         elapsed_time += delta
         game_percentage = min(elapsed_time / music_length, 1.0)
     
-    #debug output
+    # debug output
+    # [ ]: Disable this in production
     print("State: %s, Time: %.2f/%.2f, Progress: %.2f%%, Diamonds: %d/%d, Crowns: %d/%d" % [state, elapsed_time, music_length, round(game_percentage * 100), diamond_count, max_diamonds, crown_count, max_crowns])
 
 func _on_level_start() -> void:
@@ -55,11 +58,11 @@ func _on_level_start() -> void:
 
 func _on_level_complete() -> void:
     state = GameState.COMPLETED
-    #TODO: 显示结束UI，保存关卡数据等
+    #TODO: Ending UI, save level data, etc.
 
 func _on_level_failed() -> void:
     state = GameState.FAILED
-    #TODO: 可复活时展示复活UI，否则展示结束UI，保存关卡数据等
+    #TODO: Revive if available, Ending UI, save level data, etc.
 
 func _on_diamond_collected() -> void:
     diamond_count += 1
