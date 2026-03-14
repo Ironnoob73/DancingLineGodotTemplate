@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvchtbimvb182"]
+[gd_scene format=3 uid="uid://bvchtbimvb182"]
 
 [ext_resource type="Script" uid="uid://kch08yeckbir" path="res://gameObjects/death_particle.gd" id="1_tb4tw"]
 
@@ -10,13 +10,13 @@ bounce = 0.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_5jtns"]
 
-[node name="DeathParticle" type="RigidBody3D"]
+[node name="DeathParticle" type="RigidBody3D" unique_id=1855038404]
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_xq6xi")
 script = ExtResource("1_tb4tw")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1292774119]
 shape = SubResource("BoxShape3D_tb4tw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=303450816]
 mesh = SubResource("BoxMesh_5jtns")

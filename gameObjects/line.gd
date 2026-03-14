@@ -1,8 +1,10 @@
 extends CharacterBody3D
 
 @export var material: Material
-
 @export var SPEED: float = 5.0
+@export var music_clip: AudioStream
+
+
 var move_direction: Vector2 = Vector2(0,0)
 @onready var mesh: MeshInstance3D = $Mesh
 @onready var music: AudioStreamPlayer = $Music 
@@ -24,7 +26,7 @@ const DEATH_PARTICLE = preload("res://gameObjects/DeathParticle.tscn")
 # Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
 
 func _ready() -> void:
-	# TODO: Set music clip on start
+	music.stream = music_clip
 	if material != null:
 		mesh.material_override = material
 	_trail_group = Node3D.new()

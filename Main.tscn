@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://c2sv68t5t61jq"]
+[gd_scene format=3 uid="uid://c2sv68t5t61jq"]
 
 [ext_resource type="PackedScene" uid="uid://c6uu6nk2msmlk" path="res://gameObjects/Line.tscn" id="1_glv2v"]
+[ext_resource type="AudioStream" uid="uid://dhssfs5xmo7i3" path="res://assets/music/kalimantan-by-riyhsal.mp3" id="2_3dxm6"]
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_3dxm6"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_lgr22"]
@@ -56,6 +57,7 @@ shadow_enabled = true
 
 [node name="Line" parent="." unique_id=195066946 instance=ExtResource("1_glv2v")]
 SPEED = 8.0
+music_clip = ExtResource("2_3dxm6")
 
 [node name="ExampleWall" type="StaticBody3D" parent="." unique_id=605429250 groups=["wall"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.880592, -4.4867744, 29.856625)
@@ -84,22 +86,22 @@ debug_color = Color(0.9370674, 1.2995302e-05, 0.6316623, 0.41960785)
 
 [node name="Ground" type="Node3D" parent="." unique_id=228889700]
 
-[node name="Ground1" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="Ground1" type="StaticBody3D" parent="Ground" unique_id=115903237 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground1"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground1" unique_id=567888967]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground1"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground1" unique_id=911008359]
 mesh = SubResource("BoxMesh_fos0i")
 
-[node name="Ground2" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="Ground2" type="StaticBody3D" parent="Ground" unique_id=1455524958 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.964294, -6.3284216, 30.043158)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground2" unique_id=1893006171]
 shape = SubResource("BoxShape3D_r0du0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground2" unique_id=1660691300]
 mesh = SubResource("BoxMesh_fos0i")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1445494270]

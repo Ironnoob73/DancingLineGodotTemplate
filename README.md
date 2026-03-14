@@ -11,4 +11,8 @@ Restart: [R]
 
 Death sound: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
 
-Default music: Geometry Dash Practice mode music
+Default music: Kalimantan by Riyhsal https://soundcloud.com/riyhsal
+https://www.youtube.com/watch?v=P8-m9jhFttg
+License: Creative Commons — Attribution 3.0 Unported
+Free Download / Stream: https://audiolibrary.com.co/riyhsal/kalimantan
+Music promoted by Audio Library: https://youtu.be/YyT11RuWtCc
