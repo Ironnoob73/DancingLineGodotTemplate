@@ -4,6 +4,9 @@ extends CharacterBody3D
 @export var SPEED: float = 5.0
 @export var music_clip: AudioStream
 
+signal level_complete
+signal level_failed
+signal open_pyramid
 
 var move_direction: Vector2 = Vector2(0,0)
 @onready var mesh: MeshInstance3D = $Mesh
@@ -91,18 +94,15 @@ func _physics_process(delta: float) -> void:
 				_current_track = null
 	
 		# Death trigger for Collider3D
-		# DONE: Only trigger death when hitting tagged objects
-		# if is_on_wall():
-		# 	death()
+		# Only trigger death when hitting tagged objects
 		for i in range(get_slide_collision_count()):
 			var collider = get_slide_collision(i).get_collider()
 			if collider == null:
 				continue
 			elif collider.is_in_group("wall"):
 				death()
-	
-	# DONE: Switch to Phantom Camera addon	
-	# camera.global_position = lerp(camera.global_position, camera_pos.global_position, 0.05)
+
+	# Camera is handled with PhantomCamera3D addon
 	
 func new_track() -> void:
 	_track_from_pos.x = global_position.x
@@ -121,8 +121,11 @@ func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("wall"):
 		death() # Area3D wall
 	elif area.is_in_group("void"):
-		death(true) # DONE: Void death trigger
-	# TODO: Success trigger
+		death(true) # Void death trigger
+	elif area.is_in_group("success"):
+		emit_signal("level_complete")
+	elif area.is_in_group("pyramid_open"):
+		emit_signal("open_pyramid")
 
 func death(void_death: bool = false) -> void:
 	_is_dead = true
@@ -139,6 +142,8 @@ func death(void_death: bool = false) -> void:
 			death_particle_instance.global_position = global_position
 			death_particle_instance.apply_impulse(Vector3(rand_dir(),rand_dir(),rand_dir()))
 			death_particle_instance.apply_torque(Vector3(rand_dir(),rand_dir(),rand_dir()))
+	
+	emit_signal("level_failed")
 
 func rand_dir() -> float:
 	return randf_range(-SPEED,SPEED)

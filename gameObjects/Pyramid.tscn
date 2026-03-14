@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bf11okdx6rh2s"]
+
+[ext_resource type="ArrayMesh" uid="uid://d3w4p6qt4870g" path="res://assets/models/EndingSide.obj" id="1_ccxlu"]
+[ext_resource type="Script" uid="uid://bf86o0fsbtqwb" path="res://gameObjects/pyramid.gd" id="1_xt1m3"]
+
+[sub_resource type="Animation" id="Animation_xt1m3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_431nn"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-2, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(2, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bu4yx"]
+_data = {
+&"RESET": SubResource("Animation_xt1m3"),
+&"open": SubResource("Animation_431nn")
+}
+
+[node name="Pyramid" type="Node3D" unique_id=1417515114]
+script = ExtResource("1_xt1m3")
+
+[node name="Left" type="MeshInstance3D" parent="." unique_id=1891564172]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = ExtResource("1_ccxlu")
+
+[node name="Right" type="MeshInstance3D" parent="." unique_id=1552479711]
+transform = Transform3D(-0.3, 0, 4.5298744e-08, 0, 0.3, 0, -4.5298744e-08, 0, -0.3, 0, 0, 0)
+mesh = ExtResource("1_ccxlu")
+
+[node name="OpenAnim" type="AnimationPlayer" parent="." unique_id=42933051]
+libraries/ = SubResource("AnimationLibrary_bu4yx")

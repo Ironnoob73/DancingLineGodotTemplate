@@ -5,10 +5,15 @@
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_3dxm6"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_lgr22"]
+[ext_resource type="PackedScene" uid="uid://bf11okdx6rh2s" path="res://gameObjects/Pyramid.tscn" id="6_3dxm6"]
 
 [sub_resource type="Environment" id="Environment_glv2v"]
 ssao_enabled = true
 glow_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3dxm6"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 45.3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_glv2v"]
 size = Vector3(1, 3, 5)
@@ -46,16 +51,20 @@ size = Vector3(50, 1, 50)
 [sub_resource type="Resource" id="Resource_fos0i"]
 script = ExtResource("3_3dxm6")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lgr22"]
+size = Vector3(7, 1, 3)
+
 [node name="Node3D" type="Node3D" unique_id=757634661]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=749572956]
 environment = SubResource("Environment_glv2v")
+camera_attributes = SubResource("CameraAttributesPractical_3dxm6")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1271795765]
 transform = Transform3D(0.70710677, 0.49999997, -0.49999997, 0, 0.70710677, 0.70710677, 0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Line" parent="." unique_id=195066946 instance=ExtResource("1_glv2v")]
+[node name="Line" parent="." unique_id=195066946 groups=["Player"] instance=ExtResource("1_glv2v")]
 SPEED = 8.0
 music_clip = ExtResource("2_3dxm6")
 
@@ -130,3 +139,15 @@ follow_damping_value = Vector3(0.25, 0.25, 0.25)
 align_transform_with_view = Callable()
 align_position_with_view = Callable()
 align_rotation_with_view = Callable()
+
+[node name="Pyramid" parent="." unique_id=1417515114 instance=ExtResource("6_3dxm6")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 60.700237, -5.860615, 61.02251)
+
+[node name="PyramidOpen" type="Area3D" parent="." unique_id=2021506257 groups=["pyramid_open"]]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 48, -5, 48.271885)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PyramidOpen" unique_id=904288546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_lgr22")
+
+[connection signal="open_pyramid" from="Line" to="Pyramid" method="open"]
