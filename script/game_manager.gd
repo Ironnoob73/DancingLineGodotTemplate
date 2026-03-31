@@ -14,6 +14,9 @@ enum GameState {
 ## 最大皇冠数量
 @export var max_crowns: int = 3
 
+## 钻石颜色
+@export var diamond_color: Color = Color(1.0, 1.0, 0.0)
+
 ## 主角Line对象。
 @export var line: CharacterBody3D
 ## 相机控制器对象。

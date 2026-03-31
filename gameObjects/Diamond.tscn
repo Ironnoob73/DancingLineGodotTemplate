@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bex3y4k6h3do7"]
+
+[ext_resource type="Script" uid="uid://cy0cav3vsc2re" path="res://gameObjects/diamond.gd" id="1_yoojd"]
+[ext_resource type="ArrayMesh" uid="uid://1surgwkvbokq" path="res://assets/models/Diamond.obj" id="2_6tgd8"]
+[ext_resource type="ArrayMesh" uid="uid://b4lochndoeiwt" path="res://assets/models/DiamondRemain.obj" id="3_6tgd8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2f8nw"]
+size = Vector3(0.9, 1, 0.9)
+
+[node name="Diamond" type="Area3D" unique_id=1714447336]
+script = ExtResource("1_yoojd")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=487386321]
+mesh = ExtResource("2_6tgd8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1794966443]
+shape = SubResource("BoxShape3D_2f8nw")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="." unique_id=1793819409]
+emitting = false
+one_shot = true
+fixed_fps = 30
+visibility_aabb = AABB(-4, -4, -4, 8, 8, 8)
+mesh = ExtResource("3_6tgd8")
+scale_amount_min = 2.0
+scale_amount_max = 3.0
