@@ -3,6 +3,7 @@ extends CharacterBody3D
 @export var material: Material
 @export var SPEED: float = 5.0
 @export var music_clip: AudioStream
+@export var game_manager: Node
 
 signal level_start
 signal level_complete
@@ -22,7 +23,8 @@ var _trail_group: Node3D = null
 var _last_frame_on_floor: bool = false
 @onready var land_particle: GPUParticles3D = $LandParticle
 
-var _is_dead: bool = false
+var _inactive: bool = false
+var _controllable: bool = true
 const DEATH_PARTICLE = preload("res://gameObjects/DeathParticle.tscn")
 @onready var death_sound: AudioStreamPlayer = $Death
 # Death sound from: https://pixabay.com/sound-effects/break-a-clay-pot-456377/
@@ -41,12 +43,12 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	# Restart hotkey
-	# [ ]: Disable this in production
+	# TODO: Disable this in production
 	if Input.is_action_just_pressed("replay"):
 		get_tree().reload_current_scene()
 		
 	# Alive process
-	if !_is_dead:
+	if !_inactive:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
@@ -57,18 +59,15 @@ func _physics_process(delta: float) -> void:
 		_last_frame_on_floor = is_on_floor()
 		
 		# Turn
-		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		if Input.is_action_just_pressed("ui_accept") and is_on_floor() and _controllable:
 			if move_direction.length() == 0: # Start game
-				move_direction.x = 1
 				music.play()
 				emit_signal("level_start")
+				set_move_direction(1, 0)
 			elif move_direction.x != 0:
-				move_direction.x = 0
-				move_direction.y = 1
-			elif move_direction.y != 0:
-				move_direction.x = 1
-				move_direction.y = 0
-			new_track()
+				set_move_direction(0, 1)
+			else:
+				set_move_direction(1, 0)
 		
 		var direction := (transform.basis * Vector3(move_direction.x, 0, move_direction.y)).normalized()
 		if direction:
@@ -105,6 +104,7 @@ func _physics_process(delta: float) -> void:
 
 	# Camera is handled with PhantomCamera3D addon
 	
+## Generate and update a new track object
 func new_track() -> void:
 	_track_from_pos.x = global_position.x
 	_track_from_pos.y = global_position.z
@@ -117,19 +117,33 @@ func new_track() -> void:
 	_current_track = track
 	track.global_position = global_position
 
-# Trigger handler
+func set_move_direction(x: int, y: int) -> void:
+	assert(x != 0 or y != 0, "Direction parameters cannot both be zero.")
+	move_direction = Vector2(x, y)
+	new_track()
+
+## Trigger handler
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("wall"):
 		death() # Area3D wall
 	elif area.is_in_group("void"):
 		death(true) # Void death trigger
 	elif area.is_in_group("success"):
+		_inactive = true
 		emit_signal("level_complete")
 	elif area.is_in_group("pyramid_open"):
-		emit_signal("open_pyramid")
+		pre_complete_level()
 
+## Level end functions
+func pre_complete_level() -> void:
+	_controllable = false
+	emit_signal("open_pyramid")
+	if game_manager != null:
+		game_manager.on_stop_camera_move()
+
+## Death function. Parameter `void_death`: Whether the death was caused by falling into the void. Void deaths don't spawn particles or play sounds.
 func death(void_death: bool = false) -> void:
-	_is_dead = true
+	_inactive = true
 	music.stop()
 
 	# These are for collision death
@@ -145,6 +159,8 @@ func death(void_death: bool = false) -> void:
 			death_particle_instance.apply_torque(Vector3(rand_dir(),rand_dir(),rand_dir()))
 	
 	emit_signal("level_failed")
+	if game_manager != null:
+		game_manager.on_stop_camera_move()
 
 func rand_dir() -> float:
 	return randf_range(-SPEED,SPEED)
