@@ -83,7 +83,7 @@ func on_stop_camera_move() -> void:
 		var marker = Node3D.new()
 		marker.name = "LineStopMarker"
 		marker.global_transform = line.global_transform
-		get_parent().add_child(marker)
 		if camera != null:
 			camera.follow_mode = PhantomCamera3D.FollowMode.NONE
 			camera.set_look_at_target(marker)
+		get_parent().add_child(marker)
