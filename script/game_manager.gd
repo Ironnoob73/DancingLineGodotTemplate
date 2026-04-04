@@ -41,6 +41,7 @@ var elapsed_time: float = 0.0
 
 func _ready() -> void:
 	assert(line != null, "GameManager尚未设置Line对象！")
+	assert(camera != null, "GameManager尚未设置Camera对象！")
 	# Connect signals
 	line.level_start.connect(_on_level_start)
 	line.level_complete.connect(_on_level_complete)

@@ -7,10 +7,12 @@
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_lgr22"]
 [ext_resource type="PackedScene" uid="uid://bf11okdx6rh2s" path="res://gameObjects/Pyramid.tscn" id="6_3dxm6"]
 [ext_resource type="Script" uid="uid://cjgbeta2rrsuy" path="res://script/game_manager.gd" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://bex3y4k6h3do7" path="res://gameObjects/Diamond.tscn" id="8_trn2v"]
 
 [sub_resource type="Environment" id="Environment_glv2v"]
 ssao_enabled = true
 glow_enabled = true
+fog_enabled = true
 fog_mode = 1
 fog_density = 1.0
 fog_depth_begin = 35.0
@@ -137,6 +139,9 @@ shape = SubResource("BoxShape3D_r0du0")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground1" unique_id=911008359]
 mesh = SubResource("BoxMesh_fos0i")
 
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Ground/Ground1" unique_id=969398446]
+size = Vector3(50, 1, 50)
+
 [node name="Ground2" type="StaticBody3D" parent="Ground" unique_id=1455524958 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.964294, -6.3284216, 30.043158)
 
@@ -146,6 +151,9 @@ shape = SubResource("BoxShape3D_r0du0")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground2" unique_id=1660691300]
 mesh = SubResource("BoxMesh_fos0i")
 
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Ground/Ground2" unique_id=1816299417]
+size = Vector3(50, 1, 50)
+
 [node name="Ground3" type="StaticBody3D" parent="Ground" unique_id=1779436638 groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.872086, -6.328, 69.03277)
 
@@ -154,6 +162,9 @@ shape = SubResource("BoxShape3D_r0du0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground3" unique_id=991702224]
 mesh = SubResource("BoxMesh_fos0i")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Ground/Ground3" unique_id=1488785950]
+size = Vector3(50, 1, 50)
 
 [node name="Triggers" type="Node3D" parent="." unique_id=70409081]
 
@@ -173,5 +184,8 @@ shape = SubResource("BoxShape3D_lgr22")
 
 [node name="Pyramid" parent="." unique_id=1417515114 instance=ExtResource("6_3dxm6")]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 51.700237, -5.860615, 69.02251)
+
+[node name="Diamond" parent="." unique_id=1714447336 instance=ExtResource("8_trn2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.259094, -5.043451, 40.533325)
 
 [connection signal="open_pyramid" from="Line" to="Pyramid" method="open"]
